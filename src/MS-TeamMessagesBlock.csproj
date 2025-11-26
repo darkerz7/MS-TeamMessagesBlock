@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>MS_TeamMessagesBlock</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModSharp.Sharp.Shared" Version="2.1.88" />
+  </ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="if exist $(ProjectDir)build rmdir /s/q $(ProjectDir)build" />
+		<Exec Command="if not exist $(ProjectDir)build mkdir $(ProjectDir)build" />
+		<Exec Command="if not exist $(ProjectDir)build\modules mkdir $(ProjectDir)build\modules" />
+		<Exec Command="if not exist $(ProjectDir)build\modules\$(TargetName) mkdir $(ProjectDir)build\modules\$(TargetName)" />
+		<Exec Command="copy /Y $(TargetDir)$(TargetName).dll $(ProjectDir)build\modules\$(TargetName)\$(TargetName).dll" />
+		<Exec Command="copy /Y $(TargetDir)$(TargetName).deps.json $(ProjectDir)build\modules\$(TargetName)\$(TargetName).deps.json" />
+	</Target>
+
+</Project>
